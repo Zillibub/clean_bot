@@ -23,7 +23,6 @@ from participants_queue import ParticipantsQueue
 import datetime
 import yaml
 
-
 with open('env_params.yml') as f:
     params = yaml.load(f, Loader=yaml.FullLoader)
 
@@ -59,7 +58,7 @@ def start(update, context):
         days=Days.WEEKDAYS,
         context=chat_id
     )
-    context.chat_data['notifications'] = new_job
+    context.chat_data['job'] = new_job
 
 
 def alarm(context):
@@ -70,6 +69,10 @@ def alarm(context):
     """
     job = context.job
     context.bot.send_message(job.context, text=f"{pq.get()}, it's your time to remove plastic!")
+
+
+def cleaner(update, _):
+    update.message.reply_text(f"Today's cleaner: {pq.get()}")
 
 
 def error(update, context):
@@ -89,6 +92,7 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("cleaner", cleaner))
 
     # log all errors
     dp.add_error_handler(error)
