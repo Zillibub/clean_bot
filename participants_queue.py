@@ -16,7 +16,7 @@ class ParticipantsQueue:
 
         def _update_index(self):
             self.current_index += 1
-            if len(self.participants_list) >= self.current_index:
+            if self.current_index >= len(self.participants_list):
                 self.current_index = 0
 
     instance = None
