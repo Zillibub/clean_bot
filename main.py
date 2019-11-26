@@ -20,6 +20,7 @@ import logging
 from telegram.ext import Updater, CommandHandler
 from telegram.ext.jobqueue import JobQueue
 from participants_queue import ParticipantsQueue
+from timeout import TimeOut
 import datetime
 import yaml
 
@@ -44,6 +45,7 @@ TOKEN = params['token']
 index = params['start_index']
 
 pq = ParticipantsQueue(PARTICIPANTS, index)
+timeout = TimeOut(threshold=30)
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -72,11 +74,21 @@ def alarm(context):
     context.bot.send_message(job.context, text=f"{pq.get()}, it's your time to remove plastic!")
 
 
-def cleaner(update, _):
+def fuck_you(update):
+    update.message.reply_text(f"Бля, заебали спамить, пидоры")
+
+
+def cleaner(update, context):
+    if not timeout.check(update, context):
+        fuck_you(update)
+        return
     update.message.reply_text(f"Today's cleaner: {pq.get()}")
 
 
-def participants(update, _):
+def participants(update, context):
+    if not timeout.check(update, context):
+        fuck_you(update)
+        return
     update.message.reply_text(f"Current participants are: {PARTICIPANTS}")
 
 
@@ -90,7 +102,7 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater("1039603806:AAGfAwrIIc3-9teG9UgbgyhaRebM5E20PDc", use_context=True)
+    updater = Updater(TOKEN, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
