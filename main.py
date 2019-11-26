@@ -76,6 +76,10 @@ def cleaner(update, _):
     update.message.reply_text(f"Today's cleaner: {pq.get()}")
 
 
+def participants(update, _):
+    update.message.reply_text(f"Current participants are: {PARTICIPANTS}")
+
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -94,6 +98,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("cleaner", cleaner))
+    dp.add_handler(CommandHandler("participants", participants))
 
     # log all errors
     dp.add_error_handler(error)
