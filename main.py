@@ -41,8 +41,9 @@ class Days(object):
 
 PARTICIPANTS = params['participants']
 TOKEN = params['token']
+index = params['start_index']
 
-pq = ParticipantsQueue(PARTICIPANTS)
+pq = ParticipantsQueue(PARTICIPANTS, index)
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -54,7 +55,7 @@ def start(update, context):
 
     new_job = job_queue.run_daily(
         callback=alarm,
-        time=datetime.time(hour=17, minute=0),
+        time=datetime.time(hour=16, minute=0),
         days=Days.WEEKDAYS,
         context=chat_id
     )

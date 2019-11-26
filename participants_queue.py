@@ -4,9 +4,9 @@ from datetime import date
 
 class ParticipantsQueue:
     class __ParticipantsQueue:
-        def __init__(self, participants_list):
+        def __init__(self, participants_list, start_index=0):
             self.participants_list = participants_list
-            self.current_index = 0
+            self.current_index = start_index
             self.current_day = date.today().day
 
         def get(self):
@@ -16,6 +16,7 @@ class ParticipantsQueue:
 
         def _update_index(self):
             self.current_index += 1
+            self.current_day = date.today().day
             if self.current_index >= len(self.participants_list):
                 self.current_index = 0
 
