@@ -22,9 +22,9 @@ class ParticipantsQueue:
 
     instance = None
 
-    def __init__(self, participants_list=List[str]):
+    def __init__(self, participants_list=List[str], start_index=0):
         if not self.instance:
-            ParticipantsQueue.instance = self.__ParticipantsQueue(participants_list)
+            ParticipantsQueue.instance = self.__ParticipantsQueue(participants_list, start_index)
 
     def __getattr__(self, name):
         return getattr(self.instance, name)
