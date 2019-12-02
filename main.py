@@ -79,6 +79,9 @@ def fuck_you(update):
 
 
 def cleaner(update, context):
+    if datetime.datetime.today().weekday() > 4:
+        update.message.reply_text(f"It's weekend!")
+        return
     if not timeout.check(update, context):
         fuck_you(update)
         return
@@ -125,4 +128,5 @@ def main():
 
 
 if __name__ == '__main__':
+    print(1)
     main()
