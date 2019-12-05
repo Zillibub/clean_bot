@@ -12,13 +12,13 @@ class ParticipantsQueue:
         def get(self):
             if self.current_day != date.today().day:
                 self._update_index()
+            if self.current_index >= len(self.participants_list):
+                self.current_index = 0
             return self.participants_list[self.current_index]
 
         def _update_index(self):
             self.current_index += 1
             self.current_day = date.today().day
-            if self.current_index >= len(self.participants_list):
-                self.current_index = 0
 
     instance = None
 
