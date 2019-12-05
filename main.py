@@ -84,14 +84,14 @@ def cleaner(update, context):
         update.message.reply_text(f"It's weekend!")
         return
     if not timeout.check(update, context):
-        fuck_you(update)
+        # fuck_you(update)
         return
     update.message.reply_text(f"Today's cleaner: {pq.get()}")
 
 
 def participants(update, context):
     if not timeout.check(update, context):
-        fuck_you(update)
+        # fuck_you(update)
         return
     update.message.reply_text(f"Current participants are: {PARTICIPANTS}")
 
