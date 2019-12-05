@@ -43,9 +43,10 @@ class Days(object):
 PARTICIPANTS = params['participants']
 TOKEN = params['token']
 index = params['start_index']
+password = params['password']
 
 pq = ParticipantsQueue(PARTICIPANTS, index)
-timeout = TimeOut(threshold=30)
+timeout = TimeOut(threshold=1)
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -100,6 +101,12 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
+def skip(update, context):
+    message = update.message.text
+    if password in message:
+        pq.instance.current_index += 1
+        update.message.reply_text(f"Index updated")
+
 def main():
     """Run bot."""
     # Create the Updater and pass it your bot's token.
@@ -114,6 +121,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("cleaner", cleaner))
     dp.add_handler(CommandHandler("participants", participants))
+    dp.add_handler(CommandHandler("skip", skip))
 
     # log all errors
     dp.add_error_handler(error)
