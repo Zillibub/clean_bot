@@ -46,12 +46,15 @@ index = params['start_index']
 password = params['password']
 
 pq = ParticipantsQueue(PARTICIPANTS, index)
-timeout = TimeOut(threshold=1)
+timeout = TimeOut(threshold=30)
 
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
+    if not timeout.check(update, context):
+        # fuck_you(update)
+        return
     chat_id = update.message.chat_id
     update.message.reply_text(f'Hi! Current participants are: {PARTICIPANTS}')
     job_queue: JobQueue = context.job_queue
